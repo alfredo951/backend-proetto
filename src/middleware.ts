@@ -21,14 +21,19 @@ const verifyToken=(req:Request,res:Response,next:NextFunction)=>{
        return res.status(403).json({message:"token is required"})
     }
 
-    try {
-        token=token.replace(/^Bearer\s+/,"");
-       const decode= jwt.verify(token,'iaffioComanda')
-       console.log(decode)
-        req.body.userExist=decode;
-        req.userExist=decode 
-        console.log(decode);
+    try {    token = token.replace(/^Bearer\s+/, "");
+   jwt.verify(token, 'iaffioComanda', (err,_ ) => {
+        if (err) {
+          return res.status(403).json({ message: 'Invalid token' });
+        }
+    else return next();
+        });
+
+    
+
+    
     } catch (error) {
+        console.log(error)
         return res.status(401).json({message:"invalid Token"})
     }
 

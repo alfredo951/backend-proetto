@@ -39,9 +39,9 @@ app.post("/api/auth/login", function (req, res) {
         if (req.body && req.body.name && req.body.password) {
             console.log(req.body.name);
             if (req.body.name === "ciao" && req.body.password === "ciao") {
-                var token = jwt.sign({ name: req.body.name, password: req.body.password, idprofile: "1234" }, "iaffioComanda", {
-                    expiresIn: "24h"
-                });
+                var expirationDate = new Date(Date.now() + 5 * 60 * 1000).getTime();
+                var token = jwt.sign({ name: req.body.name, password: req.body.password, idprofile: "1234", scadenza: expirationDate,
+                }, "iaffioComanda");
                 console.log(req.body.name, token);
                 return res.status(200).json({ name: req.body.name, token: token, idprofile: "1234" });
             }

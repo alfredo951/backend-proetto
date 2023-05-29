@@ -27,13 +27,16 @@ var verifyToken = function (req, res, next) {
     }
     try {
         token = token.replace(/^Bearer\s+/, "");
-        var decode = jwt.verify(token, 'iaffioComanda');
-        console.log(decode);
-        req.body.userExist = decode;
-        req.userExist = decode;
-        console.log(decode);
+        jwt.verify(token, 'iaffioComanda', function (err, _) {
+            if (err) {
+                return res.status(403).json({ message: 'Invalid token' });
+            }
+            else
+                return next();
+        });
     }
     catch (error) {
+        console.log(error);
         return res.status(401).json({ message: "invalid Token" });
     }
     return next();

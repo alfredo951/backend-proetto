@@ -39,14 +39,12 @@ try {
  if(req.body && req.body.name && req.body.password){
   console.log(req.body.name)
 if(req.body.name==="ciao" && req.body.password==="ciao"){
-
+  const expirationDate =new Date(Date.now() + 5 * 60 * 1000).getTime();
   const token=jwt.sign(
-    {name:req.body.name,password:req.body.password,idprofile:"1234"},
+    {name:req.body.name,password:req.body.password,idprofile:"1234", scadenza: expirationDate,
+   },
     
-    "iaffioComanda",
-    {
-        expiresIn:"24h"
-    }
+    "iaffioComanda"
 )
 
 console.log(req.body.name,token )
